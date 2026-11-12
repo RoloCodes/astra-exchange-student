@@ -1,6 +1,7 @@
 import SignOutButton from '@/app/components/SignOutButton'
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
 
 async function Dashboard() {
   const session = await auth()
@@ -15,9 +16,18 @@ async function Dashboard() {
     <main>
       <h1>Welcome, {session.user.name}</h1>
       <p>{session.user.email}</p>
+      <p>dog</p>
       <SignOutButton />
     </main>
   )
 }
 
-export default Dashboard
+function DashboardPage() {
+  return (
+    <Suspense fallback={<main>Loading...</main>}>
+      <Dashboard />
+    </Suspense>
+  )
+}
+
+export default DashboardPage
